@@ -112,45 +112,47 @@ void addLast(int data)
 //add in specific space by index
 void add(int data, int index)
 {
-	int ll = lengthList();
+	if(index < 0)
+	{
+		printf("Index Error");
+		return;
+	}
 	if (index == 0)
 	{
 		addFirst(data);
-		return;
+		return;	//so that if will not be repeated!
 	}
-	else if((ll > 0)&&(index == (ll + 1)))
+	int i = 0;
+	node *temp = head;
+	while (temp->next != NULL)
 	{
-		addLast(data);
-	}
-	else if((0 < index)&&(index <= ll))
-	{
-		//case the index is in bound by head and tail
-		node *lk = creNode(data);
-		node *temp = (node*) malloc(sizeof(node));
-		temp = head;
-		int i = 0;
-		while (i < index - 1)
+		if (i == index - 1)
 		{
-			temp = temp->next;
-		}	
-		lk->next = temp->next;
-		temp->next = lk;
+			node *lk = creNode(data);
+			lk->next = temp->next;
+			temp->next = lk;
+			return;
+		}
+		temp = temp->next;
+		i++;
 	}
-	else
-	{
-		printf("\nIndex is not in bound of head and tail!");
-	}
+	if (i == index - 1)
+		{
+			addLast(data);
+			return;
+		}
+	printf("Index exceed tail.");
 }
 
 //delete begining
-void delete_head()
+void delHead()
 {
 	if(head == NULL)
 	{
-		printf("\nNo head to delete!");
+		printf("\nNo list to work!");
 		return;
 	}
-	else if(head->next == NULL)
+	if(head->next == NULL)
 	{
 		node *temp = head;
 		head = NULL;
@@ -158,30 +160,86 @@ void delete_head()
 		free(temp);
 		return;
 	}
-	else
-	{
-		node *temp = head;
-		head = head->next;
-		free(temp);
-		return;
-	}
+
+	node *temp = head;
+	head = head->next;
+	free(temp);
 }
 
 //delete tail
-void delete_tail()
+void delTail()
 {
-	
+	if (tail = NULL)
+	{
+		printf("\nNo list to work!");
+		return;
+	}
+	if (tail == head)
+	{
+		delHead();
+		return;
+	}
+	node *lk = head;
+	while (lk->next->next !=NULL)
+	{
+		lk = lk->next;
+	}
+	node *temp = lk->next;
+	lk->next = NULL;
+	tail = lk;
+	free(temp);
 }
 
 //delete node
-void delete_node()
+void del(int index)
 {
-	
+	if(index < 0)
+	{
+		printf("Index Error");
+		return;
+	}
+	if (index == 0)
+	{
+		delHead();
+		return;	//so that if will not be repeated!
+	}
+	int i = 0;
+	node *temp = head;
+	while (temp->next->next != NULL)
+	{
+		if (i == index - 1)
+		{
+			node *lk = temp->next;
+			temp->next = temp->next->next;
+			free(lk);
+			return;
+		}
+		temp = temp->next;
+		i++;
+	}
+	if (i == index - 1)
+		{
+			delTail();
+			return;
+		}
+	printf("Index exceed tail.");
 }
 
 
 int main()
 {
+	addFirst(10);
+	addFirst(11);
+	addFirst(12);
+	addLast(99);
+	addLast(5);
+	add(100,1);
+	display();
+	printf("\n");
+	del(1);
+	del(6);
+	display();
+	
  	   
     return 0;
 }
