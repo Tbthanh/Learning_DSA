@@ -1,7 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#define MAXSIZE 10	
 #define EXCEPTION -6996420
 
 //create ADT of Stack
@@ -18,12 +17,19 @@ stack* creStack()
 	stack *stk = malloc(sizeof(stack));
 	if(!stk) //"stk==NULL" same logic?
 		return NULL;
-	stk->capacity = MAXSIZE;
+	stk->capacity = 1;
 	stk->top = -1;
-	stk->arr = malloc(sizeof(int));
+	stk->arr = malloc(stk->capacity * sizeof(int)); //allocate an array size of 1
 	if(!stk->arr)
 		return NULL;
 	return stk;
+}
+
+//make the stack double - the dynamic part of the data structure
+void doubleStack(stack *s)
+{
+	s->capacity *= 2;
+	s->arr = realloc(s->arr,s->capacity * sizeof(int));
 }
 
 //fuction to check if stack is empty, full. If true return 1, false return 0.
@@ -41,11 +47,9 @@ int isFull(stack *s)
 //insert element to stack
 void push(stack *s,int data)
 {
+	//no overflow in here!
 	if(isFull(s))
-	{
-		printf("Stack overflow.");
-		return;
-	}
+		doubleStack(s);
 	s->arr[++s->top] = data;
 }
 
@@ -90,7 +94,19 @@ int main()
 	push(a,7); //8
 	push(a,9); //9
 	push(a,9); //10 - stack should be full
-	printf("%d\n",isFull(a));
+	printf("%d\n",pop(a));
 	push(a,11);
+	printf("%d\n",pop(a));
+	printf("%d\n",pop(a));
+	printf("%d\n",pop(a));
+	printf("%d\n",pop(a));
+	printf("%d\n",pop(a));
+	printf("%d\n",pop(a));
+	printf("%d\n",pop(a));
+	printf("%d\n",pop(a));
+	printf("%d\n",pop(a));
+	printf("%d\n",pop(a));
+	printf("%d\n",pop(a));
+	
 	return 0;
 }
