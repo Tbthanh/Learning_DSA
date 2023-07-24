@@ -225,6 +225,17 @@ void del(int index)
 	printf("Index exceed tail.");
 }
 
+int baka()
+{
+	node *lk = head;
+	int i = 0;
+	while (i < 3)
+	{
+		lk = lk->next;
+		i++;
+	}
+	return lk->data;
+}
 
 int main()
 {
@@ -239,7 +250,7 @@ int main()
 	del(1);
 	del(6);
 	display();
-	
+	printf("\n%d",baka());
  	   
     return 0;
 }
